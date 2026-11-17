@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free QR Code Generator Online | URL36</title>
+<meta name="description" content="Create free QR codes online for websites, text, phone numbers and WhatsApp. Customize colors and download your QR code as PNG.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://qr.url36.com/">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9100998938332588" crossorigin="anonymous"></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#182235}
+header{background:#fff;padding:18px 5%;border-bottom:1px solid #e5eaf1}
+.brand{font-size:24px;font-weight:800;color:#155eef;text-decoration:none}
+main{max-width:720px;margin:45px auto;padding:0 18px}
+h1{text-align:center;font-size:32px;margin-bottom:10px}
+.intro{text-align:center;color:#64748b;line-height:1.6;margin-bottom:28px}
+.panel{background:white;padding:25px;border-radius:16px;box-shadow:0 5px 25px #17255412}
+label{display:block;font-weight:700;margin:15px 0 8px}
+select,input{width:100%;padding:13px;border:1px solid #cbd5e1;border-radius:9px;font-size:16px;background:white}
+.colors{display:flex;gap:20px;align-items:center}
+.colors input{height:45px;padding:4px}
+button{border:0;border-radius:9px;padding:14px 20px;font-size:16px;font-weight:700;cursor:pointer}
+.primary{width:100%;background:#155eef;color:white;margin-top:22px}
+.download{background:#0f8a55;color:white;margin-top:15px;width:100%;display:none}
+#qrcode{display:flex;justify-content:center;align-items:center;margin:25px auto 5px;min-height:20px}
+#qrcode img,#qrcode canvas{max-width:100%;height:auto}
+.note{text-align:center;color:#64748b;font-size:13px;line-height:1.6;margin-top:18px}
+footer{text-align:center;padding:25px;color:#64748b;font-size:14px}
+footer a{color:#155eef;margin:0 7px}
+@media(max-width:500px){h1{font-size:26px}.panel{padding:18px}main{margin-top:28px}}
+</style>
+</head>
+<body>
+<header><a class="brand" href="/">URL36 QR Generator</a></header>
+<main>
+<h1>Free QR Code Generator</h1>
+<p class="intro">Create QR codes for websites, text, WhatsApp and phone numbers. Customize and download your QR code instantly.</p>
+<section class="panel">
+<label for="type">QR Code Type</label>
+<select id="type">
+<option value="url">Website URL</option>
+<option value="text">Plain Text</option>
+<option value="whatsapp">WhatsApp</option>
+<option value="phone">Phone Number</option>
+</select>
+<label for="content">Enter your information</label>
+<input id="content" type="text" placeholder="https://example.com">
+<div class="colors">
+<div style="flex:1"><label for="fg">QR Color</label><input id="fg" type="color" value="#000000"></div>
+<div style="flex:1"><label for="bg">Background</label><input id="bg" type="color" value="#ffffff"></div>
+</div>
+<button class="primary" id="generate">Generate QR Code</button>
+<div id="qrcode"></div>
+<button class="download" id="download">Download PNG</button>
+<p class="note">Your QR code is generated in your browser. Your entered information is not uploaded to our server.</p>
+</section>
+</main>
+<footer>© 2026 URL36 · Free Online QR Generator</footer>
+<script src="/assets/qrcode.min.js"></script>
+<script>
+const type=document.getElementById('type');
+const content=document.getElementById('content');
+const output=document.getElementById('qrcode');
+const download=document.getElementById('download');
+type.addEventListener('change',()=>{
+ content.value='';
+ content.placeholder={url:'https://example.com',text:'Enter your text',whatsapp:'919876543210',phone:'+919876543210'}[type.value];
+});
+document.getElementById('generate').addEventListener('click',()=>{
+ let value=content.value.trim();
+ if(!value){alert('Please enter information first.');return;}
+ if(type.value==='whatsapp'){
+  value='https://wa.me/'+value.replace(/\D/g,'');
+ }else if(type.value==='phone'){
+  value='tel:'+value;
+ }else if(type.value==='url'&&!/^https?:\/\//i.test(value)){
+  value='https://'+value;
+ }
+ if(typeof QRCode==='undefined'){alert('QR library could not load. Please refresh the page.');return;}
+ output.innerHTML='';
+ new QRCode(output,{text:value,width:256,height:256,colorDark:document.getElementById('fg').value,colorLight:document.getElementById('bg').value,correctLevel:QRCode.CorrectLevel.H});
+ download.style.display='block';
+});
+download.addEventListener('click',()=>{
+ const canvas=output.querySelector('canvas');
+ const img=output.querySelector('img');
+ let url=canvas?canvas.toDataURL('image/png'):img?img.src:null;
+ if(!url){alert('Generate a QR code first.');return;}
+ const a=document.createElement('a');a.href=url;a.download='url36-qr-code.png';a.click();
+});
+</script>
+</body>
+</html>
